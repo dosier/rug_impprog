@@ -10,16 +10,31 @@
 #include <math.h>
 
 int main(int argc, char *argv[]){
+    int digit;
 
-    int n;
+    scanf("%d", &digit);
 
-    // store input into digit
-    scanf("%d", &n);
+    int divisor = 1;
+    int isEven = 0;
+    int n = digit;
 
-    if(n % 2 == 0){     // if there is no remainder, then the digit is even
-        printf("%d is an even digit number.", n);
+    while (n % 10 != 0){
+
+        int value = digit / divisor % 10;
+
+        divisor *= 10;
+
+        if(value % 2 != 0){
+            isEven = 1;
+        }
+
+        n /= 10;
+    }
+
+    if(isEven == 0){     // if there is no remainder, then the digit is even
+        printf("%d is an even digit number.", digit);
     } else {            // if there is a remainder then the digit is not even
-        printf("%d is not an even digit number.", n);
+        printf("%d is not an even digit number.", digit);
     }
 
     return 0;
