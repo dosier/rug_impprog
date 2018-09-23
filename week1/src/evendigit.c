@@ -10,30 +10,34 @@
 #include <math.h>
 
 int main(int argc, char *argv[]){
+
     int digit;
 
     scanf("%d", &digit);
 
-    int divisor = 1;
-    int isEven = 0;
     int n = digit;
+    int iterations = 0;
 
-    while (n % 10 != 0){
-
-        int value = digit / divisor % 10;
-
-        divisor *= 10;
-
-        if(value % 2 != 0){
-            isEven = 1;
-        }
-
+    while (n > 0){
         n /= 10;
+        iterations++;
     }
 
-    if(isEven == 0){     // if there is no remainder, then the digit is even
+    int n2 = digit;
+    int value;
+    int count = 0;
+
+    for (int i = 0; i < iterations; ++i) {
+        value = n2 % 10;
+        if(value % 2 == 0){
+            count++;
+        }
+        n2 /= 10;
+    }
+
+    if(abs(digit) == digit && count == iterations){
         printf("%d is an even digit number.", digit);
-    } else {            // if there is a remainder then the digit is not even
+    } else {
         printf("%d is not an even digit number.", digit);
     }
 

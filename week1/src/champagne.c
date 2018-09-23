@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
     scanf("%d", &peopleCount);
 
     // count user
-    peopleCount += 1;
+    peopleCount++;
 
     // calculate total amount of champagne drank
     int totalChampagneInML = peopleCount * 150;
