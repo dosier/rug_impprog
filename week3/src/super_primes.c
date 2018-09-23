@@ -1,127 +1,77 @@
-/* file: sum_div_pal.c                                       */
+/* file: super_primes.c                                      */
 /* author: Stan van der Bend (email: stanvdbend@gmail.com)   */
-/* date: 17-9-2018                                           */
+/* date: 23-9-2018                                           */
 /* version: 1.0                                              */
 /* Description: this program determines whether the input n  */
-/* is a sum div pal number.                                  */
+/* can be represented as the nth super prime, that is a prime*/
+/* if it remains prime by dropping any digit                 */
+/* (leading zeros are allowed)                               */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 
-int isPrime(int num) {
+/**
+ * @param i         :   the index at which our targeted digit is located in the digits array.
+ * @param digits    :   the array of chars containing all digits.
+ *
+ * @return {@code 1} when true and {@code 0} when false.
+ */
+int dropDigit(int i, char *digits) {
 
-    if(num == 1)
-        return 0;
+    int next_digit_index;
+    int t = 1;
 
-    int i;
-    for (i = 2; i < num; i++) {
-        if (num % i == 0 && i != num)
+    while (t < i) {
+
+        next_digit_index = i / 10 / t * t + i % t;
+
+        if (digits[next_digit_index] == 0)
             return 0;
+
+        t *= 10;
     }
     return 1;
 }
 
-int dropDigit(int primeNum, int length, int index){
-
-    int digit = primeNum;
-
-    int divisor = 1;
-    int split[length];
-
-    for (int i = 0; i < length; ++i) {
-
-        int value = digit / divisor % 10;
-
-        split[i] = value;
-        divisor *= 10;
-
-    }
-    digit = 0;
-    divisor /= 10;
-
-    int arr[length-1];
-    int count = 0;
-
-    for (int k = 0; k < length; ++k) {
-
-        int i = length - k - 1;
-
-//        printf("checking [%d]=%d \n", k, split[i]);
-        if(k != index){
-            divisor /= 10;
-            arr[count] = split[i] * divisor;
-            digit += arr[count];
-//            printf("new num = %d (from %d)", digit, arr[count]);
-            count++;
-        }
-
-    }
-
-//    printf("%d -> %d", primeNum, digit);
-
-    return digit;
-}
-
-
-int isSuperPrime(int primeNum){
-
-    return 0;
-}
 int main(int argc, char *argv[]) {
 
-    int n;
-    int p;
+    int max_length = 480000L;
+    char digits[max_length];
 
+    int n;
+    int index = 0;
+
+    // wait for input and store in 'n'
     scanf("%d", &n);
 
+    // set default value of digits to 1
+    for (int i = 2; i < max_length; i++)
+        digits[i] = 1;
 
+    // iterate over possible values
+    for (int i = 2; i < max_length; i++) {
 
-    int superPrime = 0;
-    int superPrimeCount = 0;
+        // if the digit at index 'i' equals 0, disregard and continue loop
+        if (digits[i] == 0)
+            continue;
 
-    /* Go from 3 to 49 and print prime numbers without checking even numbers */
-    for (p = 3; p < 400000; p+=2) {
-        if (isPrime(p)){
+        for (int j = i+i; j < max_length; j += i){
+//            printf("[%d] nulling [%d] -> %d \n", i, j, digits[j]);
+            digits[j] = 0;
+        }
 
-            int length = 0;
-            int primeNum = p;
+        //no need to drop digits when we have only 10.
+        if (i > 10) {
 
-            while(primeNum != 0) {
-                primeNum /= 10;
-                ++length;
-            }
-//            printf("m = %d, l = %d \n",p,  length);
-            int isSuperPrime = 1;
+            // see if we can drop the digit at the specified index
+            if (dropDigit(i, digits)){
 
-            if(length < 2){
-                continue;
-            }
-
-            for (int i = 0; i < length; ++i) {
-                int number = dropDigit(p, length, i);
-
-//                printf("n = %d\n", number);
-
-                if(!isPrime(number)){
-//                    printf("%d is not a prime number", number);
-                    isSuperPrime = 0;
-                    break;
-                }
-            }
-            if(isSuperPrime){
-                superPrime = p;
-                superPrimeCount++;
-
-                if(superPrimeCount == n){
-                    printf("%d", superPrime);
+                index++; // increment and compare with 'n'
+                if(index == n){
+                    printf("%d", i);
                     return 0;
                 }
             }
         }
     }
-
-
-
-    return 0;
 }
+
