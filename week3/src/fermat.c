@@ -1,4 +1,4 @@
-/* file: fun_eval.c                                            */
+/* file: fermat.c                                              */
 /* author: Stan van der Bend (email: stanvdbend@gmail.com)     */
 /* date: 18-9-2018                                             */
 /* version: 1.0                                                */
