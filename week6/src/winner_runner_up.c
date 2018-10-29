@@ -82,6 +82,7 @@ int main() {
     bubbleSort(length, a.array);
 
     int currentCount = 1;
+    int runnerUpInput = -1, runnerUpInputCount = 0;
 
     int majorityInput = a.array[0], majorityInputCount = 1;
     // iterate over all values starting at index 1
@@ -100,8 +101,6 @@ int main() {
         }
     }
 
-    currentCount = 1;
-    int runnerUpInput = -1, runnerUpInputCount = 0;
     // iterate over all values starting at index 1
     for (int i = 1; i < length; ++i) {
 

@@ -3,4 +3,4 @@ project(rug_impprog C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(rug_impprog winner_runner_up.c)
+add_executable(rug_impprog search_tree.c)
